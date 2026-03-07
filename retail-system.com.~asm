@@ -1,0 +1,18 @@
+ORG 100h ; Program starts at offset 100h (after DOS PSP)
+; DOS reserves first 256 bytes (0000h-00FFh) for PSP
+
+
+start:
+
+LEA DX, MSG ; Puts the address of the sting into DX
+MOV AH, 09h ; Select DOS print function
+INT 21h     ; Calls DOS interrupt
+
+MOV AH, 4Ch
+INT 21h
+
+MSG DB 'Retail System',13,10,'$'
+
+
+
+; [SOURCE]: C:\Users\Lenovo\source\repos\retail system\retail-system.asm
