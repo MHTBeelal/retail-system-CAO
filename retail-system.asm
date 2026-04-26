@@ -1,9 +1,9 @@
 #MAKE_EXE#      ; FORCING THE EMU8086 TO COMPILE AS AN EXE FILE
 
-.MODEL SMALL    ; Defines the memory model
-.STACK 100h     ; Reserves 256 bytes for the stack
+.MODEL SMALL
+.STACK 100h
 
-.DATA           ; Start of the Data Segment
+.DATA
     
     
                   ; --- Header Strings ---
@@ -95,18 +95,15 @@
                                                              
                                                              
  
- .CODE          ; Marking the beginning of the executable instructions
- 
- 
-    ;   --- Macro To Print The String ---   
+ .CODE   
     
     PRINT_STR MACRO STRING
-        MOV AH, 09h     ; DOS function 09h: prints the string
-        LEA DX, STRING  ; Load effective address of the string into the DX Register
-        INT 21h         ; Trigger DOS interrupt to execute the print
+        MOV AH, 09h
+        LEA DX, STRING
+        INT 21h
     ENDM
     
-    MAIN PROC           ; Start of your main procedure
+    MAIN PROC
         
         ; 1. Initialize the Data Segment
         MOV AX, @DATA
@@ -128,11 +125,10 @@
         PRINT_STR PROMPT; Prints the prompt asking for input
         
         ; 3. Take user input from the keyboard
-        MOV AH, 01h     ; DOS Finction 01h: Read  single character
-        INT 21h         ; Typed key is saved in the AL Register
+        MOV AH, 01h
+        INT 21h
         
-        ; --- NEW ROUTING LOGIC ---
-        ; We use CMP (Compare) and JE (jump if Equal)
+        ; --- MENU OPTIONS LOGIC ---
         
         CMP AL, '1'     ; Did the user press key '1'?
         JE SHOW_ITEMS   ; If Equal, Them jump to the SHOW_ITEMS Label
@@ -224,12 +220,11 @@
                 PUSH SI                 
 
                 ; --- Get Quantity ---
-                ; (For this example, we'll assume a single digit 1-9)
                 PRINT_STR QTY_PROMPT    ; (Make sure you added this to .DATA!)
                 MOV AH, 01h
                 INT 21h
                 SUB AL, '0'             ; AL = actual quantity
-                MOV CL, AL              ; Store quantity in CL
+                MOV CL, AL
     
                 ; --- Update the Basket Count ---
                 POP SI                  ; Get our item index back
@@ -505,12 +500,11 @@
                  
                  
         EXIT_PROG:
-                ; 4. Exit the Prograk Gracefully
-                MOV AH, 4Ch    ; DOS Function 4Ch: Terminate program
-                INT 21h        ; Trigger DOS interrupt to exit                                                              
+                MOV AH, 4Ch
+                INT 21h                                                            
                                                   
                                                   
-     MAIN ENDP                 ; End of the main procedure
+     MAIN ENDP
     
             
             ; ============================================
@@ -613,4 +607,4 @@
            
             
             
-     END MAIN                  ; Tells the assembler this is the very end of the file
+     END MAIN
